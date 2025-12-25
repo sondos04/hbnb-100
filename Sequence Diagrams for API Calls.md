@@ -18,6 +18,7 @@ Design Note
 Validating related entities preserves referential integrity.
 
 3. Fetching a List of Places
+   
 Purpose
 Illustrates how the system retrieves a list of places based on user-defined filters.
 Explanation

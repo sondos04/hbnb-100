@@ -27,6 +27,7 @@ Design Note
 Filtering logic is handled in the Business Logic layer to maintain separation of concerns.
 
 4. Review Submission
+   
 Purpose
 Describes the process of submitting and validating a review.
 Explanation

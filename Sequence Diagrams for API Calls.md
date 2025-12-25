@@ -1,1 +1,1 @@
-
+This section describes the interaction flow between system components for the primary API operations in the HBnB application. The sequence diagrams illustrate how requests move through the Presentation, Business Logic, and Persistence layers.

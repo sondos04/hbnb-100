@@ -3,3 +3,7 @@ This document describes the Business Logic layer of the HBnB application.
 ## 1. Overview
 The Business Logic layer models core domain entities and business rules independently of presentation and persistence.## 2. BaseEntity Class
 ## 2. BaseEntity Class
+**Attributes**
+- id (UUID)
+- created_at (DateTime)
+- updated_at (DateTime)

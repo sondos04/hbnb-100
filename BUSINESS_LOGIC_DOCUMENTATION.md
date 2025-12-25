@@ -11,3 +11,4 @@ The Business Logic layer models core domain entities and business rules independ
 - save()
 - update()
 - delete()
+## 3. User Entity

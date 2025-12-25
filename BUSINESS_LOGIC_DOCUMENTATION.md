@@ -20,3 +20,6 @@ The Business Logic layer models core domain entities and business rules independ
 - One user can own multiple places
 - One user can submit multiple reviews
 ## 4. Place Entity
+The Place entity represents accommodation listings in the platform.
+## Summary
+This document provides a clear reference for implementing the HBnB Business Logic layer.

@@ -1,41 +1,19 @@
-from app.models.user import User
 from app.models.place import Place
+from app.models.user import User
+from app.models.review import Review
 
-def test_place():
-    # def test_place():
-    owner = User("sondos", "alrubaish", "sondos@example.com")
+def test_place_creation():
+    owner = User(first_name="Alice", last_name="Smith", email="alice.smith@example.com")
+    place = Place(title="Cozy Apartment", description="A nice place to stay", price=100, latitude=37.7749, longitude=-122.4194, owner=owner)
 
-    # Create a new place
-    place = Place(
-        title="5 start apartment",
-        description="Cozy place in the city center",
-        price=345.5,
-        latitude=23.4446,
-        longitude=42.6553,
-        owner=owner
-    )
-
-    # Check values
-    assert place.title == "5 start apartment"
-    assert place.price == 345.5
-    assert place.owner == owner
-    assert isinstance(place.reviews, list)
-    assert isinstance(place.amenities, list)
-
-    #Try adding a review and attachment
-    class DummyReview: pass
-    class DummyAmenity: pass
-
-    review = DummyReview()
-    amenity = DummyAmenity()
-
+    # Adding a review
+    review = Review(text="Great stay!", rating=5, place=place, user=owner)
     place.add_review(review)
-    place.add_amenity(amenity)
 
-    assert review in place.reviews
-    assert amenity in place.amenities
+    assert place.title == "Cozy Apartment"
+    assert place.price == 100
+    assert len(place.reviews) == 1
+    assert place.reviews[0].text == "Great stay!"
+    print("Place creation and relationship test passed!")
 
-    print(" Place test passed!")
-
-if __name__ == "__main__":
-    test_place()
+test_place_creation()

@@ -73,14 +73,12 @@ class HBnBFacade:
         self.amenity_repo.update(amenity_id, amenity)
         return amenity 
         
-from app.models.place import Place
 
 
-class HBnBFacade:
 
-# ---------- Place methods ----------
+    # ---------- Place methods ----------
 
-        def create_place(self, place_data):
+    def create_place(self, place_data):
         owner_id = place_data.get("owner_id")
         if not owner_id:
             raise ValueError("owner_id is required")

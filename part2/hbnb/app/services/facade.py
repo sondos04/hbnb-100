@@ -79,13 +79,16 @@ from app.models.place import Place
 class HBnBFacade:
 
     # ---------- Place methods ----------
-
     def create_place(self, place_data):
         owner_id = place_data.get("owner_id")
+        if not owner_id:
+            raise ValueError("owner_id is required")
+
         owner = self.user_repo.get(owner_id)
         if not owner:
             raise ValueError("Owner not found")
 
+        # Create Place (this will validate title/price/lat/lng)
         place = Place(
             title=place_data.get("title"),
             description=place_data.get("description"),
@@ -95,10 +98,12 @@ class HBnBFacade:
             owner=owner
         )
 
+        # Attach amenities by IDs (optional)
         for amenity_id in place_data.get("amenities", []):
             amenity = self.amenity_repo.get(amenity_id)
-            if amenity:
-                place.add_amenity(amenity)
+            if not amenity:
+                raise ValueError("Amenity not found")
+            place.add_amenity(amenity)
 
         self.place_repo.add(place)
         return place
@@ -114,44 +119,61 @@ class HBnBFacade:
         if not place:
             return None
 
+        # update fields with the same validation style (consistent with your model)
         if "title" in place_data:
             title = place_data["title"]
-            if not isinstance(title, str) or not title.strip():
-                raise ValueError("title must be a non-empty string")
-            if len(title.strip()) > 100:
-                raise ValueError("title must be at most 100 characters")
-            place.title = title.strip()
+            if not isinstance(title, str):
+                raise TypeError("title must be a string.")
+            title = title.strip()
+            if not title:
+                raise ValueError("title is required.")
+            if len(title) > 100:
+                raise ValueError("title must be at most 100 characters.")
+            place.title = title
 
         if "description" in place_data:
-            description = place_data["description"]
-            if not isinstance(description, str):
-                raise TypeError("description must be a string")
-            place.description = description.strip()
+            desc = place_data["description"]
+            if desc is None:
+                desc = ""
+            if not isinstance(desc, str):
+                raise TypeError("description must be a string.")
+            place.description = desc.strip()
 
         if "price" in place_data:
             price = place_data["price"]
-            if not isinstance(price, (int, float)) or price < 0:
-                raise ValueError("price must be a non-negative number")
+            if not isinstance(price, (int, float)):
+                raise TypeError("price must be a number.")
+            if price <= 0:
+                raise ValueError("price must be a positive value.")
             place.price = float(price)
 
         if "latitude" in place_data:
-            latitude = place_data["latitude"]
-            if not isinstance(latitude, (int, float)) or not -90 <= latitude <= 90:
-                raise ValueError("latitude must be between -90 and 90")
-            place.latitude = float(latitude)
+            lat = place_data["latitude"]
+            if not isinstance(lat, (int, float)):
+                raise TypeError("latitude must be a number.")
+            lat = float(lat)
+            if lat < -90.0 or lat > 90.0:
+                raise ValueError("latitude must be between -90.0 and 90.0.")
+            place.latitude = lat
 
         if "longitude" in place_data:
-            longitude = place_data["longitude"]
-            if not isinstance(longitude, (int, float)) or not -180 <= longitude <= 180:
-                raise ValueError("longitude must be between -180 and 180")
-            place.longitude = float(longitude)
+            lng = place_data["longitude"]
+            if not isinstance(lng, (int, float)):
+                raise TypeError("longitude must be a number.")
+            lng = float(lng)
+            if lng < -180.0 or lng > 180.0:
+                raise ValueError("longitude must be between -180.0 and 180.0.")
+            place.longitude = lng
 
         if "amenities" in place_data:
+            # replace amenities list
             place.amenities.clear()
             for amenity_id in place_data["amenities"]:
                 amenity = self.amenity_repo.get(amenity_id)
-                if amenity:
-                    place.add_amenity(amenity)
+                if not amenity:
+                    raise ValueError("Amenity not found")
+                place.add_amenity(amenity)
 
-        place.save()
+        # persist in repo
+        self.place_repo.update(place_id, place)
         return place

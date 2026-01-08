@@ -12,7 +12,6 @@ class HBnBFacade:
         self.amenity_repo = InMemoryRepository()
     
     def create_user(self, user_data):
-        # Check if email already exists
         existing_users = self.user_repo.get_all()
         for user in existing_users:
             if user.email == user_data.get('email'):
@@ -72,5 +71,4 @@ class HBnBFacade:
     def get_all_reviews(self):
         return self.review_repo.get_all()
 
-# 🔑 هذا السطر هو جوهر Task 5 - instance واحدة مشتركة
 facade = HBnBFacade()

@@ -6,6 +6,8 @@ This documentation serves as a foundational blueprint that explains how differen
 Emphasis is placed on UML modeling, clean architectural design, and separation of concerns.
 
 ---
+# Part 1 – System Architecture and Design
+
 ## Package Diagram
 
 This section presents the High-Level Package Diagram for the HBnB Evolution application.  
@@ -43,6 +45,77 @@ Each sequence diagram represents a specific API use case and demonstrates the fl
 
 --- 
 
+# Part 2 – Business Logic and API Implementation
+
+This part of the **HBnB** project focuses on implementing the **Business Logic Layer (BL)** and exposing application functionality through **RESTful API endpoints**.  
+The implementation follows the architecture previously defined and applies the **Facade Design Pattern** to centralize business operations and enforce a clean separation between layers.
+
+An **in-memory persistence mechanism** is used to manage entities and apply business rules such as data validation and entity relationships.  
+This stage delivers a functional and maintainable backend foundation.
+
+---
+
+## Business Logic Overview
+
+The Business Logic Layer is responsible for validating input data, enforcing business rules, coordinating interactions between the API and repository layers, and preventing invalid operations such as creating entities with non-existent relationships.
+
+All business behavior is centralized to ensure consistent and reliable application behavior regardless of how the API is accessed.
+
+---
+
+## Architecture and Design
+
+The application follows a layered architecture consisting of:
+- An API Layer for handling HTTP requests and responses
+- A Business Logic Layer for validation and rule enforcement
+- A Repository Layer for abstracting data storage
+
+All communication between layers is coordinated through the **Facade**, improving maintainability, scalability, and testability.
+
+---
+
+## Persistence Strategy
+
+Data persistence in this phase is simulated using in-memory Python data structures.  
+This approach allows the application to focus on enforcing business logic, validation rules, and entity relationships without introducing database complexity.
+
+All stored data is reset when the server restarts, which is an intentional design choice aligned with the scope of this project stage.  
+This strategy supports rapid development, easier debugging, and clear validation of application behavior before integrating permanent storage solutions in future phases.
+
+---
+
+## API Implementation
+
+RESTful API endpoints are implemented using **Flask** and **Flask-RESTX**, providing a clean and structured interface for interacting with the application.  
+The API enables operations on core entities such as Users, Places, Amenities, and Reviews using standard HTTP methods and JSON payloads.
+
+Flask-RESTX is also used to automatically generate **Swagger documentation**, offering an interactive view of available endpoints, request formats, and response structures.  
+This improves usability, consistency, and clarity for both development and testing.
+
+---
+
+## Testing and Validation
+
+API functionality is validated using automated shell scripts that simulate real client requests through the `curl` command-line tool.  
+These scripts are designed to test both successful and invalid scenarios to ensure correct behavior under different conditions.
+
+- `test_users.sh` validates **Tasks 1–3**, covering user creation, retrieval, and update operations.
+- `test_amenities_places.sh` validates **Tasks 4–6**, covering amenity operations and place creation with owner validation.
+
+Testing verifies:
+- Correct enforcement of business rules
+- Proper handling of invalid input and non-existent resources
+- Accurate HTTP status codes
+- Consistent and structured JSON responses
+
+---
+
+## Summary
+
+Part 2 delivers a functional backend implementation that transforms architectural design into executable code.  
+By centralizing business logic through the Facade Pattern, enforcing validation rules, exposing RESTful APIs, and validating behavior through structured testing, this stage provides a solid and maintainable foundation for future enhancements such as persistent storage and authentication.
+
+---
 ## Authors
 
 ### Shaden Majed Alalwani  

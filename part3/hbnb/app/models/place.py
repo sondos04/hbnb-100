@@ -1,4 +1,4 @@
-from app.models.BaseModel import BaseModel
+from app.models.base_model import BaseModel, Base
 from app.models.validation import Validator
 
 class Place(BaseModel):

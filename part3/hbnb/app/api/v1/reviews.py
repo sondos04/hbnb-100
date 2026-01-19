@@ -1,5 +1,5 @@
 from flask_restx import Resource, Namespace, fields
-from app.services.facade import facade  # ✅ نفس facade المشترك
+from app.services.facade import facade
 
 api = Namespace('reviews', description='Review operations')
 

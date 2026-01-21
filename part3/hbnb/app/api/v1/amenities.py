@@ -4,9 +4,8 @@ from app.services.facade import facade
 
 api = Namespace('amenities', description='Amenity operations')
 
-# =====================
 # API Models
-# =====================
+
 amenity_model = api.model('Amenity', {
     'name': fields.String(required=True, description='Name of the amenity')
 })
@@ -15,9 +14,8 @@ update_amenity_model = api.model('AmenityUpdate', {
     'name': fields.String(description='Name of the amenity')
 })
 
-# =====================
 # Amenity List
-# =====================
+
 @api.route('/')
 class AmenityList(Resource):
 
@@ -37,9 +35,8 @@ class AmenityList(Resource):
         amenity = facade.create_amenity(api.payload)
         return amenity.to_dict(), 201
 
-# =====================
 # Amenity Resource
-# =====================
+
 @api.route('/<string:amenity_id>')
 class AmenityResource(Resource):
 

@@ -177,17 +177,12 @@ curl -X POST http://127.0.0.1:5000/api/v1/users \
 ```
 pip install -r requirements.txt
 ```
-2- **Initialize the database:**
-```
-python3 -m app.persistence.db
-```
-
-3- **Start the application:**
+2- **Start the application:**
 ```
 python3 run.py
 ```
 
-4- **Access the API:**
+3- **Access the API:**
 ```
 http://127.0.0.1:5000/api/v1/
 ```
@@ -222,15 +217,6 @@ All tests were performed after completing the database integration in Part 3 to 
 
 ---
 
-## Summary
-
-The test results confirm that:
-- The application correctly persists data using the database
-- Entity relationships are properly enforced
-- Business rules are applied as expected
-- API endpoints behave consistently with the project specifications
-
----
 ### Key Improvements from Part 2
 
 - Introduction of database-backed persistence
@@ -238,3 +224,10 @@ The test results confirm that:
 - Improved separation of concerns
 - Enhanced scalability and maintainability
 ---
+
+## Conclusion
+
+Part 3 of the HBnB project successfully transitions the application from in-memory storage to a fully persistent, database-backed architecture.
+By integrating SQLAlchemy, implementing a clean repository and facade pattern, and enforcing proper relationships and business rules, the system achieves improved scalability, reliability, and maintainability.
+This phase establishes a solid foundation for future extensions, advanced features, and production-ready deployment.
+

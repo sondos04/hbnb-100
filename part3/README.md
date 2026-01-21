@@ -38,7 +38,7 @@ This structure improves maintainability, scalability, and testability.
 
 ---
 
-## Project Structure (Part 3 – Actual Implementation)
+## Project Structure - Actual Implementation
 
 The following directory structure reflects the **actual file layout used in Part 3**,
 based strictly on the implemented project files.
@@ -117,6 +117,42 @@ managing sessions, and ensuring data is stored persistently.
 It acts as the foundation that links the application logic
 with the SQL database.
 
+---
+
+## Table 1: API Layer (v1) – Changes & Responsibilities
+| File | Entity | Endpoints | Part 3 Updates | Responsibility |
+|------|--------|-----------|----------------|----------------|
+| api/v1/places.py | Place | POST /places | Connected place creation to database via Facade | Handle place creation requests |
+|  |  | GET /places | Retrieve places from database instead of memory | List all places |
+|  |  | GET /places/<id> | Fetch a specific place from database | Retrieve a single place |
+| api/v1/reviews.py | Review | POST /reviews | Added duplicate review prevention logic | Create reviews with validation |
+|  |  | GET /reviews | Read reviews from database | List all reviews |
+|  |  | GET /reviews/<id> | Retrieve a review by ID | Fetch a single review |
+| api/v1/users.py | User | POST /users | Persist users in database | Create user accounts |
+|  |  | GET /users | Retrieve users from database | List users |
+| api/v1/auth.py | Auth | POST /auth/login | Authenticate users using database data | Issue JWT access tokens |
+| api/v1/amenities.py | Amenity | POST /amenities | Store amenities in database instead of memory | Create amenities (admin-level) |
+|  |  | GET /amenities | Retrieve amenities from database | List all amenities |
+|  |  | GET /amenities/<id> | Fetch a specific amenity by ID | Retrieve a single amenity |
+
+---
+## Table 2: Models Layer – SQLAlchemy ORM Updates
+| File | Model | Table | Core Fields | Relationships | Part 3 Enhancements |
+|------|-------|-------|-------------|---------------|---------------------|
+| models/base_model.py | BaseModel | — | id, created_at, updated_at | — | Integrated with SQLAlchemy declarative base |
+| models/user.py | User | users | email, password, is_admin | places, reviews | Added ORM relationships and persistent storage |
+| models/place.py | Place | places | title, owner_id, price_per_night | owner, reviews | Added foreign key to User and ORM relationships |
+| models/review.py | Review | reviews | text, rating, user_id, place_id | user, place | Added foreign keys and unique constraint to prevent duplicates |
+| models/amenity.py | Amenity | amenities | name | places | Persisted amenities using SQLAlchemy ORM |
+
+---
+## Notes
+- The API layer is responsible only for request handling and response formatting.
+- Business rules and validation logic are centralized in the Facade layer.
+- All entity relationships are defined exclusively in the Models layer.
+- Duplicate review prevention is enforced at both:
+- Application level (Facade validation)
+- Database level (unique constraint).
 ---
 
 ## Testing

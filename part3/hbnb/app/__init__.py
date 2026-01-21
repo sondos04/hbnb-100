@@ -27,7 +27,7 @@ def create_app(config_class):
         description="HBnB Application API",
         doc="/api/v1/"
     )
-
+    
     # Register namespaces
     api.add_namespace(users_ns, path="/api/v1/users")
     api.add_namespace(auth_ns, path="/api/v1/auth")

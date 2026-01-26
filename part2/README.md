@@ -216,6 +216,53 @@ Each test script sends a sequence of HTTP requests that:
 ○ No crashes or unhandled exceptions
 
 ---
+## Edge Case Testing Results
+
+This section documents the edge cases tested for the HBnB API to ensure proper validation, error handling, and system stability. All tests were executed using cURL and the provided shell scripts.
+
+### User Endpoints
+- Duplicate email during user creation  
+  **Expected Result:** 400 Bad Request  
+- Invalid user ID during retrieval  
+  **Expected Result:** 404 Not Found  
+- Empty first or last name during update  
+  **Expected Result:** 400 Bad Request  
+
+### Amenity Endpoints
+- Creating an amenity with an empty name  
+  **Expected Result:** 400 Bad Request  
+- Retrieving an amenity using an invalid ID  
+  **Expected Result:** 404 Not Found  
+
+### Place Endpoints
+- Creating a place with a non-existent owner_id  
+  **Expected Result:** 400 Bad Request  
+- Creating a place with invalid amenity IDs  
+  **Expected Result:** 400 Bad Request  
+- Creating or updating a place with a negative price  
+  **Expected Result:** 400 Bad Request  
+- Creating or updating a place with latitude outside the range (-90 to 90)  
+  **Expected Result:** 400 Bad Request  
+- Creating or updating a place with longitude outside the range (-180 to 180)  
+  **Expected Result:** 400 Bad Request  
+- Retrieving a place with an invalid ID  
+  **Expected Result:** 404 Not Found  
+
+### Review Endpoints
+- Creating a review with an empty text field  
+  **Expected Result:** 400 Bad Request  
+- Creating a review with a rating outside the range (1–5)  
+  **Expected Result:** 400 Bad Request  
+- Creating a review with a non-existent user_id or place_id  
+  **Expected Result:** 400 Bad Request  
+- Retrieving a review using an invalid review ID  
+  **Expected Result:** 404 Not Found  
+- Deleting a review and attempting to retrieve it again  
+  **Expected Result:** 200 OK followed by 404 Not Found  
+
+All edge cases returned the expected HTTP status codes and error messages, confirming that validation rules and error handling are correctly enforced across the API.
+
+---
 
 ## Summary
 This project implements the Business Logic Layer of the HBnB application using a clean, layered architecture.

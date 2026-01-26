@@ -31,14 +31,21 @@ class Users(Resource):
         """Create a new user"""
         try:
             user = facade.create_user(api.payload)
-            return user.to_dict(), 201
-        except ValueError as e:
+            result = user.to_dict()
+            result.pop("password", None)
+            return result, 201
+        except (TypeError, ValueError) as e:
             api.abort(400, str(e))
 
     def get(self):
         """Get all users"""
         users = facade.get_all_users()
-        return [user.to_dict() for user in users], 200
+        result = []
+        for user in users:
+            data = user.to_dict()
+            data.pop("password", None)
+            result.append(data)
+        return result, 200
 
 
 @api.route('/<string:user_id>')
@@ -46,24 +53,27 @@ class User(Resource):
 
     def get(self, user_id):
         """Get user by ID"""
-        user = facade.user_repo.get(user_id)
+        user = facade.get_user(user_id)
         if not user:
             api.abort(404, "User not found")
-        return user.to_dict(), 200
+
+        result = user.to_dict()
+        result.pop("password", None)
+        return result, 200
 
     @api.expect(update_user_model)
     def put(self, user_id):
         """Update user"""
-        user = facade.user_repo.get(user_id)
-        if not user:
-            api.abort(404, "User not found")
+        data = api.payload or {}
 
-        data = api.payload
+        try:
+            user = facade.update_user(user_id, data)
+            if not user:
+                api.abort(404, "User not found")
 
-        if 'first_name' in data:
-            user.first_name = data['first_name']
-        if 'last_name' in data:
-            user.last_name = data['last_name']
+            result = user.to_dict()
+            result.pop("password", None)
+            return result, 200
 
-        return user.to_dict(), 200
-
+        except (TypeError, ValueError) as e:
+            api.abort(400, str(e))

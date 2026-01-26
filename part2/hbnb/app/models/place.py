@@ -22,6 +22,7 @@ class Place(BaseModel):
         self.latitude = latitude
         self.longitude = longitude
         self.owner = owner              # User object
+        self.owner_id = owner.id
         self.reviews = []
         self.amenities = amenities if amenities else []
 

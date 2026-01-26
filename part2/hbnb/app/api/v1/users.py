@@ -9,9 +9,9 @@ api = Namespace('users', description='User operations')
 
 user_model = api.model('User', {
     'email': fields.String(required=True, description='User email'),
-    'password': fields.String(required=True, description='User password'),
-    'first_name': fields.String(description='First name'),
-    'last_name': fields.String(description='Last name')
+    'first_name': fields.String(required=True, description='First name'),
+    'last_name': fields.String(required=True, description='Last name'),
+    'is_admin': fields.Boolean(description='Admin flag')
 })
 
 update_user_model = api.model('UpdateUser', {

@@ -1,12 +1,21 @@
+import os
 from app import create_app
-from config import DevelopmentConfig
-from app.db.database import get_engine
-from app.models.base_model import Base
+from config import DevelopmentConfig, ProductionConfig
+from app.extensions import db
 
-app = create_app(DevelopmentConfig)
 
-engine = get_engine("development")
-Base.metadata.create_all(engine)
+def get_config():
+    env = os.getenv("FLASK_ENV", "development").lower()
+    if env == "production":
+        return ProductionConfig
+    return DevelopmentConfig
 
-if __name__ == "__main__":
-    app.run(debug=True)
+
+app = create_app(get_config())
+
+with app.app_context():
+    db.create_all()
+
+
+if name == "main":
+    app.run(host="0.0.0.0", port=5000, debug=app.config.get("DEBUG", False))

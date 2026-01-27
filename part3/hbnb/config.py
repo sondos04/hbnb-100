@@ -1,3 +1,5 @@
+import os
+
 class Config:
     SECRET_KEY = "super-secret-key"
     JWT_SECRET_KEY = "jwt-super-secret-key"
@@ -9,6 +11,12 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///development.db"
 
 
+class ProductionConfig(Config):
+    DEBUG = False
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URI")
+
+
 config = {
     "development": DevelopmentConfig,
+    "production": ProductionConfig,
 }

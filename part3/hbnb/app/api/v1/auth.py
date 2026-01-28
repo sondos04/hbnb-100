@@ -5,8 +5,8 @@ from app.services.facade import facade
 api = Namespace("auth", description="Authentication operations")
 
 login_model = api.model("Login", {
-    "email": fields.String(required=True),
-    "password": fields.String(required=True),
+    "email": fields.String(required=True, description="User email"),
+    "password": fields.String(required=True, description="User password"),
 })
 
 token_model = api.model("Token", {
@@ -17,13 +17,20 @@ token_model = api.model("Token", {
 @api.route("/login")
 class Login(Resource):
 
-    @api.expect(login_model)
+    @api.expect(login_model, validate=True)  # ✅ important: validate missing fields -> 400
     @api.marshal_with(token_model)
     def post(self):
-        data = api.payload
+        data = api.payload or {}
 
-        user = facade.user_repo.get_by_email(data["email"])
-        if not user or not user.check_password(data["password"]):
+        email = (data.get("email") or "").strip()
+        password = data.get("password")
+
+        # ✅ extra safety (even with validate=True)
+        if not email or not password:
+            api.abort(400, "Missing email or password")
+
+        user = facade.user_repo.get_by_email(email)
+        if not user or not user.check_password(password):
             api.abort(401, "Invalid email or password")
 
         access_token = create_access_token(

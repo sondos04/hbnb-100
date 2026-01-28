@@ -10,13 +10,16 @@ def get_config():
         return ProductionConfig
     return DevelopmentConfig
 
+
 app = create_app(get_config())
 
+# لازم يكون داخل app_context
 with app.app_context():
-    from app.models.user import User
-    from app.models.place import Place
-    from app.models.review import Review
-    from app.models.amenity import Amenity
+    # مهم: استيراد المودلز قبل create_all
+    from app.models.user import User  # noqa: F401
+    from app.models.place import Place  # noqa: F401
+    from app.models.review import Review  # noqa: F401
+    from app.models.amenity import Amenity  # noqa: F401
 
     db.create_all()
 

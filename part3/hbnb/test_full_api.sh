@@ -236,7 +236,6 @@ echo "============================================================"
 
 curl -i -s -X DELETE "$BASE_URL/api/v1/reviews/$REVIEW_ID" \
   -H "$AUTH_HEADER"
-
 echo
 echo "============================================================"
 echo "ALL TESTS COMPLETED SUCCESSFULLY"

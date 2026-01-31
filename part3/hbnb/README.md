@@ -211,7 +211,6 @@ All tests were performed after completing the database integration in Part 3 to 
 ### 2. Place Tests
 
 <img src="https://github.com/user-attachments/assets/72a80cde-87a3-48e4-be20-8b6be8fc5e30" alt="Place Test 1" width="450">
-
 <img  src="https://github.com/user-attachments/assets/d00d851e-01b1-4eb7-8800-245c8b09873b" alt="Place Test 2" width="450">
 
 ---

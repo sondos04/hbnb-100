@@ -3,7 +3,6 @@ set -e
 
 BASE_URL="http://127.0.0.1:5000/api/v1"
 
-# Colors for output
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
@@ -15,9 +14,6 @@ echo "  HBNB API COMPLETE TEST SUITE"
 echo "=============================================="
 echo ""
 
-# ============================================
-# 1. ADMIN LOGIN
-# ============================================
 echo -e "${YELLOW}[1/20] Testing Admin Login...${NC}"
 ADMIN_LOGIN=$(curl -s -X POST "$BASE_URL/auth/login" \
   -H "Content-Type: application/json" \
@@ -26,16 +22,14 @@ ADMIN_LOGIN=$(curl -s -X POST "$BASE_URL/auth/login" \
 ADMIN_TOKEN=$(python3 -c "import json; print(json.loads('''$ADMIN_LOGIN''')['access_token'])")
 
 if [ ! -z "$ADMIN_TOKEN" ]; then
-  echo -e "${GREEN}✅ Admin login successful${NC}"
+  echo -e "${GREEN}Admin login successful${NC}"
 else
-  echo -e "${RED}❌ Admin login failed${NC}"
+  echo -e "${RED}Admin login failed${NC}"
   exit 1
 fi
 echo ""
 
-# ============================================
-# 2. CREATE REGULAR USER (PLACE OWNER)
-# ============================================
+
 echo -e "${YELLOW}[2/20] Creating Place Owner User...${NC}"
 
 USERS_LIST=$(curl -s -X GET "$BASE_URL/users/" -H "Authorization: Bearer $ADMIN_TOKEN")
@@ -53,19 +47,17 @@ if [ -z "$OWNER_ID" ]; then
     }')
   
   OWNER_ID=$(python3 -c "import json; print(json.loads('''$OWNER_CREATE''')['id'])")
-  echo -e "${GREEN}✅ Owner user created: $OWNER_ID${NC}"
+  echo -e "${GREEN}Owner user created: $OWNER_ID${NC}"
 else
   curl -s -X PUT "$BASE_URL/users/$OWNER_ID" \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $ADMIN_TOKEN" \
     -d '{"password": "password123"}' > /dev/null
-  echo -e "${GREEN}✅ Owner user exists, password updated: $OWNER_ID${NC}"
+  echo -e "${GREEN}Owner user exists, password updated: $OWNER_ID${NC}"
 fi
 echo ""
 
-# ============================================
-# 3. OWNER LOGIN
-# ============================================
+
 echo -e "${YELLOW}[3/20] Testing Owner Login...${NC}"
 OWNER_LOGIN=$(curl -s -X POST "$BASE_URL/auth/login" \
   -H "Content-Type: application/json" \
@@ -77,35 +69,31 @@ OWNER_LOGIN=$(curl -s -X POST "$BASE_URL/auth/login" \
 OWNER_TOKEN=$(python3 -c "import json; print(json.loads('''$OWNER_LOGIN''')['access_token'])")
 
 if [ ! -z "$OWNER_TOKEN" ]; then
-  echo -e "${GREEN}✅ Owner login successful${NC}"
+  echo -e "${GREEN}Owner login successful${NC}"
 else
-  echo -e "${RED}❌ Owner login failed${NC}"
+  echo -e "${RED}Owner login failed${NC}"
   exit 1
 fi
 echo ""
 
-# ============================================
-# 4. TEST USER PERMISSIONS
-# ============================================
+
 echo -e "${YELLOW}[4/20] Testing User Permissions...${NC}"
 
 OWNER_PROFILE=$(curl -s -X GET "$BASE_URL/users/$OWNER_ID" \
   -H "Authorization: Bearer $OWNER_TOKEN")
-echo -e "${GREEN}✅ Owner can view own profile${NC}"
+echo -e "${GREEN}Owner can view own profile${NC}"
 
 LIST_USERS=$(curl -s -X GET "$BASE_URL/users/" \
   -H "Authorization: Bearer $OWNER_TOKEN")
 
 if echo "$LIST_USERS" | grep -q "Admin privileges required"; then
-  echo -e "${GREEN}✅ Owner cannot list all users (correct)${NC}"
+  echo -e "${GREEN}Owner cannot list all users (correct)${NC}"
 else
-  echo -e "${RED}❌ Owner should not be able to list all users${NC}"
+  echo -e "${RED}Owner should not be able to list all users${NC}"
 fi
 echo ""
 
-# ============================================
-# 5. UPDATE USER PROFILE
-# ============================================
+
 echo -e "${YELLOW}[5/20] Testing User Profile Update...${NC}"
 UPDATE_PROFILE=$(curl -s -X PUT "$BASE_URL/users/$OWNER_ID" \
   -H "Content-Type: application/json" \
@@ -113,18 +101,15 @@ UPDATE_PROFILE=$(curl -s -X PUT "$BASE_URL/users/$OWNER_ID" \
   -d '{"first_name": "Updated Owner"}')
 
 if echo "$UPDATE_PROFILE" | grep -q "Updated Owner"; then
-  echo -e "${GREEN}✅ User profile updated successfully${NC}"
+  echo -e "${GREEN}User profile updated successfully${NC}"
 else
-  echo -e "${RED}❌ User profile update failed${NC}"
+  echo -e "${RED}User profile update failed${NC}"
 fi
 echo ""
 
-# ============================================
-# 6. CREATE AMENITIES (ADMIN ONLY)
-# ============================================
+
 echo -e "${YELLOW}[6/20] Creating Amenities...${NC}"
 
-# Create WiFi amenity
 WIFI_CREATE=$(curl -s -X POST "$BASE_URL/amenities/" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
@@ -132,16 +117,15 @@ WIFI_CREATE=$(curl -s -X POST "$BASE_URL/amenities/" \
 
 if echo "$WIFI_CREATE" | grep -q "WiFi"; then
   WIFI_ID=$(python3 -c "import json; print(json.loads('''$WIFI_CREATE''')['id'])")
-  echo -e "${GREEN}✅ WiFi amenity created: $WIFI_ID${NC}"
+  echo -e "${GREEN}WiFi amenity created: $WIFI_ID${NC}"
 elif echo "$WIFI_CREATE" | grep -q "already exists"; then
   ALL_AMENITIES=$(curl -s -X GET "$BASE_URL/amenities/")
   WIFI_ID=$(python3 -c "import json; amenities=json.loads('''$ALL_AMENITIES'''); print(next((a['id'] for a in amenities if a['name']=='WiFi'), ''))")
-  echo -e "${GREEN}✅ WiFi amenity exists: $WIFI_ID${NC}"
+  echo -e "${GREEN}WiFi amenity exists: $WIFI_ID${NC}"
 else
-  echo -e "${RED}❌ WiFi amenity creation failed${NC}"
+  echo -e "${RED}WiFi amenity creation failed${NC}"
 fi
 
-# Create Pool amenity
 POOL_CREATE=$(curl -s -X POST "$BASE_URL/amenities/" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
@@ -149,16 +133,15 @@ POOL_CREATE=$(curl -s -X POST "$BASE_URL/amenities/" \
 
 if echo "$POOL_CREATE" | grep -q "Swimming Pool"; then
   POOL_ID=$(python3 -c "import json; print(json.loads('''$POOL_CREATE''')['id'])")
-  echo -e "${GREEN}✅ Pool amenity created: $POOL_ID${NC}"
+  echo -e "${GREEN}Pool amenity created: $POOL_ID${NC}"
 elif echo "$POOL_CREATE" | grep -q "already exists"; then
   ALL_AMENITIES=$(curl -s -X GET "$BASE_URL/amenities/")
   POOL_ID=$(python3 -c "import json; amenities=json.loads('''$ALL_AMENITIES'''); print(next((a['id'] for a in amenities if a['name']=='Swimming Pool'), ''))")
-  echo -e "${GREEN}✅ Pool amenity exists: $POOL_ID${NC}"
+  echo -e "${GREEN}Pool amenity exists: $POOL_ID${NC}"
 else
-  echo -e "${RED}❌ Pool amenity creation failed${NC}"
+  echo -e "${RED}Pool amenity creation failed${NC}"
 fi
 
-# Create Air Conditioning amenity
 AC_CREATE=$(curl -s -X POST "$BASE_URL/amenities/" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
@@ -166,29 +149,24 @@ AC_CREATE=$(curl -s -X POST "$BASE_URL/amenities/" \
 
 if echo "$AC_CREATE" | grep -q "Air Conditioning"; then
   AC_ID=$(python3 -c "import json; print(json.loads('''$AC_CREATE''')['id'])")
-  echo -e "${GREEN}✅ AC amenity created: $AC_ID${NC}"
+  echo -e "${GREEN}AC amenity created: $AC_ID${NC}"
 elif echo "$AC_CREATE" | grep -q "already exists"; then
   ALL_AMENITIES=$(curl -s -X GET "$BASE_URL/amenities/")
   AC_ID=$(python3 -c "import json; amenities=json.loads('''$ALL_AMENITIES'''); print(next((a['id'] for a in amenities if a['name']=='Air Conditioning'), ''))")
-  echo -e "${GREEN}✅ AC amenity exists: $AC_ID${NC}"
+  echo -e "${GREEN}AC amenity exists: $AC_ID${NC}"
 else
-  echo -e "${RED}❌ AC amenity creation failed${NC}"
+  echo -e "${RED}AC amenity creation failed${NC}"
 fi
 echo ""
 
-# ============================================
-# 7. GET ALL AMENITIES
-# ============================================
+
 echo -e "${YELLOW}[7/20] Getting All Amenities...${NC}"
 ALL_AMENITIES=$(curl -s -X GET "$BASE_URL/amenities/")
 
 AMENITIES_COUNT=$(python3 -c "import json; print(len(json.loads('''$ALL_AMENITIES''')))")
-echo -e "${GREEN}✅ Retrieved $AMENITIES_COUNT amenities${NC}"
+echo -e "${GREEN}Retrieved $AMENITIES_COUNT amenities${NC}"
 echo ""
 
-# ============================================
-# 8. TEST NON-ADMIN CANNOT CREATE AMENITY
-# ============================================
 echo -e "${YELLOW}[8/20] Testing Amenity Permissions...${NC}"
 OWNER_AMENITY=$(curl -s -X POST "$BASE_URL/amenities/" \
   -H "Content-Type: application/json" \
@@ -196,15 +174,13 @@ OWNER_AMENITY=$(curl -s -X POST "$BASE_URL/amenities/" \
   -d '{"name": "Parking"}')
 
 if echo "$OWNER_AMENITY" | grep -q "Admin privileges required"; then
-  echo -e "${GREEN}✅ Non-admin cannot create amenities (correct)${NC}"
+  echo -e "${GREEN}Non-admin cannot create amenities (correct)${NC}"
 else
-  echo -e "${RED}❌ Non-admin should not be able to create amenities${NC}"
+  echo -e "${RED}Non-admin should not be able to create amenities${NC}"
 fi
 echo ""
 
-# ============================================
-# 9. CREATE PLACE
-# ============================================
+
 echo -e "${YELLOW}[9/20] Creating Place...${NC}"
 CREATE_PLACE=$(curl -s -X POST "$BASE_URL/places/" \
   -H "Content-Type: application/json" \
@@ -214,50 +190,42 @@ CREATE_PLACE=$(curl -s -X POST "$BASE_URL/places/" \
 PLACE_ID=$(python3 -c "import json; print(json.loads('''$CREATE_PLACE''')['id'])")
 
 if [ ! -z "$PLACE_ID" ]; then
-  echo -e "${GREEN}✅ Place created: $PLACE_ID${NC}"
+  echo -e "${GREEN}Place created: $PLACE_ID${NC}"
 else
-  echo -e "${RED}❌ Place creation failed${NC}"
+  echo -e "${RED}Place creation failed${NC}"
   exit 1
 fi
 echo ""
 
-# ============================================
-# 10. AMENITY-PLACE RELATIONSHIP (LIMITATION)
-# ============================================
+
 echo -e "${YELLOW}[10/20] Amenity-Place Relationship Test...${NC}"
-echo -e "${BLUE}ℹ️  Note: Current API does not support amenity assignment via Places endpoint${NC}"
+echo -e "${BLUE}Note: Current API does not support amenity assignment via Places endpoint${NC}"
 echo -e "${BLUE}   This would require additional endpoint or model enhancement${NC}"
-echo -e "${GREEN}✅ Test acknowledged - feature not implemented in current API${NC}"
+echo -e "${GREEN}Test acknowledged - feature not implemented in current API${NC}"
 echo ""
 
-# ============================================
-# 11. GET ALL PLACES
-# ============================================
+
 echo -e "${YELLOW}[11/20] Getting All Places...${NC}"
 ALL_PLACES=$(curl -s -X GET "$BASE_URL/places/" \
   -H "Authorization: Bearer $OWNER_TOKEN")
 
 PLACES_COUNT=$(python3 -c "import json; print(len(json.loads('''$ALL_PLACES''')))")
-echo -e "${GREEN}✅ Retrieved $PLACES_COUNT places${NC}"
+echo -e "${GREEN}Retrieved $PLACES_COUNT places${NC}"
 echo ""
 
-# ============================================
-# 12. GET SINGLE PLACE
-# ============================================
+
 echo -e "${YELLOW}[12/20] Getting Single Place...${NC}"
 SINGLE_PLACE=$(curl -s -X GET "$BASE_URL/places/$PLACE_ID" \
   -H "Authorization: Bearer $OWNER_TOKEN")
 
 if echo "$SINGLE_PLACE" | grep -q "Luxury Apartment"; then
-  echo -e "${GREEN}✅ Place retrieved successfully${NC}"
+  echo -e "${GREEN}Place retrieved successfully${NC}"
 else
-  echo -e "${RED}❌ Place retrieval failed${NC}"
+  echo -e "${RED}Place retrieval failed${NC}"
 fi
 echo ""
 
-# ============================================
-# 13. UPDATE PLACE
-# ============================================
+
 echo -e "${YELLOW}[13/20] Updating Place...${NC}"
 UPDATE_PLACE=$(curl -s -X PUT "$BASE_URL/places/$PLACE_ID" \
   -H "Content-Type: application/json" \
@@ -265,24 +233,20 @@ UPDATE_PLACE=$(curl -s -X PUT "$BASE_URL/places/$PLACE_ID" \
   -d '{"title": "Updated Luxury Apartment", "price_per_night": 250}')
 
 if echo "$UPDATE_PLACE" | grep -q "Updated Luxury Apartment"; then
-  echo -e "${GREEN}✅ Place updated successfully${NC}"
+  echo -e "${GREEN}Place updated successfully${NC}"
 else
-  echo -e "${RED}❌ Place update failed${NC}"
+  echo -e "${RED}Place update failed${NC}"
 fi
 echo ""
 
-# ============================================
-# 14. UPDATE AMENITY (ADMIN ONLY)
-# ============================================
+
 echo -e "${YELLOW}[14/20] Updating Amenity...${NC}"
 
-# Refresh admin token before update
 ADMIN_LOGIN=$(curl -s -X POST "$BASE_URL/auth/login" \
   -H "Content-Type: application/json" \
   -d '{"email":"admin@hbnb.io","password":"admin123"}')
 ADMIN_TOKEN=$(python3 -c "import json; print(json.loads('''$ADMIN_LOGIN''')['access_token'])")
 
-# Use timestamp to ensure unique name
 TIMESTAMP=$(date +%s)
 UPDATE_AMENITY=$(curl -s -X PUT "$BASE_URL/amenities/$WIFI_ID" \
   -H "Content-Type: application/json" \
@@ -290,22 +254,20 @@ UPDATE_AMENITY=$(curl -s -X PUT "$BASE_URL/amenities/$WIFI_ID" \
   -d "{\"name\": \"WiFi-$TIMESTAMP\"}")
 
 if echo "$UPDATE_AMENITY" | grep -q "WiFi-$TIMESTAMP"; then
-  echo -e "${GREEN}✅ Amenity updated successfully${NC}"
+  echo -e "${GREEN}Amenity updated successfully${NC}"
 elif echo "$UPDATE_AMENITY" | grep -q "already exists"; then
-  echo -e "${YELLOW}⚠️  Amenity name conflict - API validation working correctly${NC}"
-  echo -e "${GREEN}✅ Test passed - duplicate names prevented${NC}"
+  echo -e "${YELLOW}Amenity name conflict - API validation working correctly${NC}"
+  echo -e "${GREEN}Test passed - duplicate names prevented${NC}"
 else
-  echo -e "${RED}❌ Amenity update failed${NC}"
+  echo -e "${RED}Amenity update failed${NC}"
   echo "   Response: $UPDATE_AMENITY"
 fi
 echo ""
 
-# ============================================
-# 15. CREATE REVIEWER USER
-# ============================================
+
 echo -e "${YELLOW}[15/20] Creating Reviewer User...${NC}"
 
-# Refresh users list
+
 USERS_LIST=$(curl -s -X GET "$BASE_URL/users/" -H "Authorization: Bearer $ADMIN_TOKEN")
 REVIEWER_ID=$(python3 -c "import json; users=json.loads('''$USERS_LIST'''); print(next((u['id'] for u in users if u.get('email')=='reviewer_test@example.com'), ''))")
 
@@ -321,19 +283,17 @@ if [ -z "$REVIEWER_ID" ]; then
     }')
   
   REVIEWER_ID=$(python3 -c "import json; print(json.loads('''$REVIEWER_CREATE''')['id'])")
-  echo -e "${GREEN}✅ Reviewer created: $REVIEWER_ID${NC}"
+  echo -e "${GREEN}Reviewer created: $REVIEWER_ID${NC}"
 else
   curl -s -X PUT "$BASE_URL/users/$REVIEWER_ID" \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $ADMIN_TOKEN" \
     -d '{"password": "password123"}' > /dev/null
-  echo -e "${GREEN}✅ Reviewer exists, password updated: $REVIEWER_ID${NC}"
+  echo -e "${GREEN}Reviewer exists, password updated: $REVIEWER_ID${NC}"
 fi
 echo ""
 
-# ============================================
-# 16. REVIEWER LOGIN
-# ============================================
+
 echo -e "${YELLOW}[16/20] Testing Reviewer Login...${NC}"
 REVIEWER_LOGIN=$(curl -s -X POST "$BASE_URL/auth/login" \
   -H "Content-Type: application/json" \
@@ -345,16 +305,14 @@ REVIEWER_LOGIN=$(curl -s -X POST "$BASE_URL/auth/login" \
 REVIEWER_TOKEN=$(python3 -c "import json; print(json.loads('''$REVIEWER_LOGIN''')['access_token'])")
 
 if [ ! -z "$REVIEWER_TOKEN" ]; then
-  echo -e "${GREEN}✅ Reviewer login successful${NC}"
+  echo -e "${GREEN}Reviewer login successful${NC}"
 else
-  echo -e "${RED}❌ Reviewer login failed${NC}"
+  echo -e "${RED}Reviewer login failed${NC}"
   exit 1
 fi
 echo ""
 
-# ============================================
-# 17. CREATE REVIEW
-# ============================================
+
 echo -e "${YELLOW}[17/20] Creating Review...${NC}"
 CREATE_REVIEW=$(curl -s -X POST "$BASE_URL/reviews/" \
   -H "Content-Type: application/json" \
@@ -363,16 +321,14 @@ CREATE_REVIEW=$(curl -s -X POST "$BASE_URL/reviews/" \
 
 if echo "$CREATE_REVIEW" | grep -q "Excellent place"; then
   REVIEW_ID=$(python3 -c "import json; print(json.loads('''$CREATE_REVIEW''')['id'])")
-  echo -e "${GREEN}✅ Review created: $REVIEW_ID${NC}"
+  echo -e "${GREEN}Review created: $REVIEW_ID${NC}"
 else
-  echo -e "${RED}❌ Review creation failed${NC}"
+  echo -e "${RED}Review creation failed${NC}"
   echo "   Response: $CREATE_REVIEW"
 fi
 echo ""
 
-# ============================================
-# 18. TEST REVIEW RESTRICTIONS
-# ============================================
+
 echo -e "${YELLOW}[18/20] Testing Review Restrictions...${NC}"
 
 OWNER_REVIEW=$(curl -s -X POST "$BASE_URL/reviews/" \
@@ -381,9 +337,9 @@ OWNER_REVIEW=$(curl -s -X POST "$BASE_URL/reviews/" \
   -d "{\"place_id\": \"$PLACE_ID\", \"rating\": 5, \"text\": \"My own place!\"}")
 
 if echo "$OWNER_REVIEW" | grep -q "cannot review your own place"; then
-  echo -e "${GREEN}✅ Owner cannot review own place (correct)${NC}"
+  echo -e "${GREEN}Owner cannot review own place (correct)${NC}"
 else
-  echo -e "${RED}❌ Owner should not be able to review own place${NC}"
+  echo -e "${RED}Owner should not be able to review own place${NC}"
 fi
 
 DUPLICATE_REVIEW=$(curl -s -X POST "$BASE_URL/reviews/" \
@@ -392,15 +348,13 @@ DUPLICATE_REVIEW=$(curl -s -X POST "$BASE_URL/reviews/" \
   -d "{\"place_id\": \"$PLACE_ID\", \"rating\": 4, \"text\": \"Another review\"}")
 
 if echo "$DUPLICATE_REVIEW" | grep -q "already reviewed"; then
-  echo -e "${GREEN}✅ Cannot review same place twice (correct)${NC}"
+  echo -e "${GREEN}Cannot review same place twice (correct)${NC}"
 else
-  echo -e "${RED}❌ Should not be able to review same place twice${NC}"
+  echo -e "${RED}Should not be able to review same place twice${NC}"
 fi
 echo ""
 
-# ============================================
-# 19. UPDATE REVIEW
-# ============================================
+
 echo -e "${YELLOW}[19/20] Updating Review...${NC}"
 UPDATE_REVIEW=$(curl -s -X PUT "$BASE_URL/reviews/$REVIEW_ID" \
   -H "Content-Type: application/json" \
@@ -408,9 +362,9 @@ UPDATE_REVIEW=$(curl -s -X PUT "$BASE_URL/reviews/$REVIEW_ID" \
   -d '{"text": "Updated: Amazing place with great location!", "rating": 5}')
 
 if echo "$UPDATE_REVIEW" | grep -q "Updated: Amazing"; then
-  echo -e "${GREEN}✅ Review updated successfully${NC}"
+  echo -e "${GREEN}Review updated successfully${NC}"
 else
-  echo -e "${RED}❌ Review update failed${NC}"
+  echo -e "${RED}Review update failed${NC}"
 fi
 
 UNAUTHORIZED_UPDATE=$(curl -s -X PUT "$BASE_URL/reviews/$REVIEW_ID" \
@@ -419,34 +373,29 @@ UNAUTHORIZED_UPDATE=$(curl -s -X PUT "$BASE_URL/reviews/$REVIEW_ID" \
   -d '{"text": "Hacked!", "rating": 1}')
 
 if echo "$UNAUTHORIZED_UPDATE" | grep -q "Unauthorized"; then
-  echo -e "${GREEN}✅ Unauthorized review update blocked (correct)${NC}"
+  echo -e "${GREEN}Unauthorized review update blocked (correct)${NC}"
 else
-  echo -e "${RED}❌ Should not be able to update others reviews${NC}"
+  echo -e "${RED}Should not be able to update others reviews${NC}"
 fi
 echo ""
 
-# ============================================
-# 20. DELETE REVIEW & CLEANUP
-# ============================================
+
 echo -e "${YELLOW}[20/20] Testing Review Deletion...${NC}"
 DELETE_REVIEW=$(curl -s -X DELETE "$BASE_URL/reviews/$REVIEW_ID" \
   -H "Authorization: Bearer $REVIEWER_TOKEN")
 
 if echo "$DELETE_REVIEW" | grep -q "deleted"; then
-  echo -e "${GREEN}✅ Review deleted successfully${NC}"
+  echo -e "${GREEN}Review deleted successfully${NC}"
 else
-  echo -e "${RED}❌ Review deletion failed${NC}"
+  echo -e "${RED}Review deletion failed${NC}"
 fi
 echo ""
 
-# ============================================
-# SUMMARY
-# ============================================
-echo "=============================================="
-echo -e "${GREEN}  ✅ ALL TESTS COMPLETED SUCCESSFULLY!${NC}"
-echo "=============================================="
+
+
+echo -e "${GREEN}  ALL TESTS COMPLETED SUCCESSFULLY!${NC}"
 echo ""
-echo "Test Results: 20/20 ✅"
+echo "Test Results: 20/20 "
 echo ""
 echo "Summary:"
 echo -e "  ${BLUE}Users:${NC}"

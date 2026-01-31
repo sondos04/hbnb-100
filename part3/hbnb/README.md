@@ -208,7 +208,6 @@ All tests were performed after completing the database integration in Part 3 to 
 
 ---
 
-### 2. Place & Review Tests
 
 <img src="https://github.com/user-attachments/assets/16eaa084-f50d-4793-9409-5aea3a640782" alt="Place Test" width="450">
 

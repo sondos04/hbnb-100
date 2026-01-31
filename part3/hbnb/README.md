@@ -200,7 +200,6 @@ All tests were performed after completing the database integration in Part 3 to 
 
 ---
 
-<img src="https://github.com/user-attachments/assets/590dbbef-0db9-4d0b-8b96-3e8cc10e0fb8" alt="User Test 1" width="450">
 
 <img src="https://github.com/user-attachments/assets/531e4c22-571e-4ed9-95a4-986e029aa9ac" alt="User Test 2" width="450">
 

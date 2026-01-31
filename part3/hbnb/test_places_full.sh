@@ -8,9 +8,7 @@ echo "=============================="
 echo " PLACES FULL TEST STARTED"
 echo "=============================="
 
-# ------------------------------
-# LOGIN ADMIN
-# ------------------------------
+
 ADMIN_LOGIN=$(curl -s -X POST $BASE_URL/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"admin@hbnb.io","password":"admin123"}')
@@ -23,9 +21,7 @@ EOF
 
 AUTH_ADMIN="Authorization: Bearer $ADMIN_TOKEN"
 
-# ------------------------------
-# CREATE USER (PLACE OWNER)
-# ------------------------------
+
 OWNER_EMAIL="place_owner_$(date +%s)@example.com"
 
 curl -s -X POST $BASE_URL/users/ \
@@ -38,9 +34,7 @@ curl -s -X POST $BASE_URL/users/ \
     \"last_name\": \"Owner\"
   }" > /dev/null
 
-# ------------------------------
-# LOGIN OWNER
-# ------------------------------
+
 OWNER_LOGIN=$(curl -s -X POST $BASE_URL/auth/login \
   -H "Content-Type: application/json" \
   -d "{\"email\":\"$OWNER_EMAIL\",\"password\":\"owner123\"}")
@@ -53,9 +47,7 @@ EOF
 
 AUTH_OWNER="Authorization: Bearer $OWNER_TOKEN"
 
-# ------------------------------
-# CREATE PLACE
-# ------------------------------
+
 echo "== CREATE PLACE =="
 
 PLACE=$(curl -s -X POST $BASE_URL/places/ \
@@ -75,16 +67,12 @@ print(json.loads("""$PLACE""")["id"])
 EOF
 )
 
-# ------------------------------
-# GET PLACE
-# ------------------------------
+
 echo "== GET PLACE =="
 
 curl -s -X GET $BASE_URL/places/$PLACE_ID
 
-# ------------------------------
-# UPDATE PLACE
-# ------------------------------
+
 echo "== UPDATE PLACE =="
 
 curl -s -X PUT $BASE_URL/places/$PLACE_ID \
@@ -94,17 +82,13 @@ curl -s -X PUT $BASE_URL/places/$PLACE_ID \
     "price_per_night": 200
   }'
 
-# ------------------------------
-# DELETE PLACE
-# ------------------------------
+
 echo "== DELETE PLACE =="
 
 curl -s -X DELETE $BASE_URL/places/$PLACE_ID \
   -H "$AUTH_OWNER"
 
-# ------------------------------
-# GET PLACE AFTER DELETE
-# ------------------------------
+
 echo "== GET PLACE AFTER DELETE =="
 
 curl -s -X GET $BASE_URL/places/$PLACE_ID

@@ -147,7 +147,23 @@ In Part 3, HBnB moves from temporary in-memory storage to a **relational databas
 
 ---
 
+## Prerequisites Installation
+```
+apt update
+apt install sqlite3 -y
+sqlite3 --version
+```
+## Start Server
+````
+python3 run.py 
+````
+## Run Tests
+```
+chmod +x test_complete_api.sh
+./test_complete_api.sh
+```
 
+---
 ## Database Design – ER Diagram
 
 The ER Diagram below illustrates how **Users, Places, Reviews, and Amenities** are related, including primary keys, foreign keys, and association tables.

@@ -1,7 +1,6 @@
 from app.extensions import db
 from app.models.base_model import BaseModel
 
-# Association table (Place <-> Amenity)
 place_amenity = db.Table(
     "place_amenity",
     db.Column(
@@ -22,19 +21,17 @@ place_amenity = db.Table(
 class Place(BaseModel):
     __tablename__ = "places"
 
-    # Basic fields
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(1024), default="", nullable=False)
     price_per_night = db.Column(db.Float, default=0.0, nullable=False)
     
-    # ✅ FIXED: Added latitude and longitude fields
+
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
 
-    # Owner
+    
     owner_id = db.Column(db.String(36), db.ForeignKey("users.id"), nullable=False)
 
-    # Relationships
     owner = db.relationship("User", back_populates="places")
 
     reviews = db.relationship(
@@ -55,8 +52,8 @@ class Place(BaseModel):
             "title": self.title,
             "description": self.description,
             "price_per_night": self.price_per_night,
-            "latitude": self.latitude,  # ✅ FIXED: Added to dict
-            "longitude": self.longitude,  # ✅ FIXED: Added to dict
+            "latitude": self.latitude,  
+            "longitude": self.longitude, 
             "owner_id": self.owner_id,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,

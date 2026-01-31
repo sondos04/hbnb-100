@@ -219,9 +219,9 @@ All tests were performed after completing the database integration in Part 3 to 
 ---
 ### 1. User Tests
 
-<img src="https://github.com/user-attachments/assets/590dbbef-0db9-4d0b-8b96-3e8cc10e0fb8" alt="User Test 1" width="450">
+<img src="https://github.com/user-attachments/assets/e8a94e5c-3c06-4dfc-8131-d6efbb7079c9" alt="User Test 1" width="450">
 
-<img src="https://github.com/user-attachments/assets/531e4c22-571e-4ed9-95a4-986e029aa9ac" alt="User Test 2" width="450">
+<img src="https://github.com/user-attachments/assets/12b4fb5a-4f84-4a83-a43f-7479003d6add" alt="User Test 2" width="450" >
 
 ---
 

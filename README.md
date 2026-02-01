@@ -167,13 +167,14 @@ chmod +x test_complete_api.sh
 ## Database Design – ER Diagram
 
 The ER diagram below illustrates the relationships between Users, Places, Reviews, and Amenities, highlighting primary keys, foreign keys, and the association tables that define how these entities are connected within the system.
+
 <img src="part3/ER_diagram.png" width="500">
 
 ---
 ## Summary
 
-Part 3 completes the transition to a **persistent and scalable backend**, ensuring data integrity, secure authentication, and durable storage.  
-HBnB is now ready for future features, advanced extensions, and production-level deployment.
+Part 3 completes the transition to a persistent and scalable backend by ensuring data integrity, secure authentication, and reliable long-term storage.
+At this stage, HBnB is prepared to support future features, advanced extensions, and deployment in a production-ready environment.
 
 ---
 ## Authors

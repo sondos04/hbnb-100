@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBnB - Luxury Stays in Riyadh</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body data-page="index" class="bg-gray-50">
+    <!-- HEADER with semantic HTML5 -->
+    <header>
+        <nav class="bg-white shadow-sm fixed w-full z-10">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo with class="logo" -->
+                    <div class="flex items-center gap-2">
+                        <img src="images/logo.png" alt="HBnB Logo" class="logo w-13 h-13">
+                    </div>
+                    
+                    <!-- Navigation Links -->
+                    <div class="hidden md:flex gap-6">
+                        <a href="index.html" class="nav-link px-2 py-1" data-nav-link>Home</a>
+                        <a href="place.html" class="nav-link px-2 py-1 text-gray-600" data-nav-link>Places</a>
+                        <a href="about_us.html" class="nav-link px-2 py-1 text-gray-600" data-nav-link>About</a>
+                        <div id="auth-links">
+                            <a href="login.html" class="login-button nav-link px-2 py-1 text-gray-600" data-nav-link>Login</a>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        
+                        <!-- User Menu - shown when authenticated -->
+                        <div id="user-menu-container" class="hidden relative">
+                            <div id="user-avatar" class="user-avatar">
+                                <span id="avatar-initial"></span>
+                            </div>
+                            <div id="user-dropdown" class="hidden absolute top-10 right-0 bg-white rounded-lg shadow-lg border border-gray-200 w-48 py-1 z-50">
+                                <div class="px-4 py-2 border-b border-gray-100">
+                                    <p id="dropdown-name" class="text-sm font-semibold"></p>
+                                    <p id="dropdown-email" class="text-xs text-gray-500"></p>
+                                </div>
+                                <button id="logout-btn" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Sign Out</button>
+                            </div>
+                        </div>
+                        
+                        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="h-16"></div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- HERO SECTION -->
+        <section class="bg-gradient-to-r from-[#9B7BB8] to-[#7A5A9A] text-white py-16">
+            <div class="max-w-6xl mx-auto px-4 text-center">
+                <h1 id="page-title" class="font-display text-4xl md:text-5xl font-bold mb-4">Luxury Stays in Riyadh</h1>
+                <p id="page-subtitle" class="text-lg mb-8 max-w-2xl mx-auto opacity-90">Discover the finest accommodations across the capital</p>
+                
+                <!-- Price Filter -->
+                <div class="bg-white p-4 rounded-xl max-w-md mx-auto flex flex-col sm:flex-row gap-3 shadow-lg">
+                    <select id="price-filter-index" class="flex-1 px-4 py-3 rounded-lg border border-gray-300 text-gray-800 outline-none text-sm">
+                        <option value="0">Filter by price</option>
+                        <option value="500">Under 500 SAR</option>
+                        <option value="1000">Under 1,000 SAR</option>
+                        <option value="1500">Under 1,500 SAR</option>
+                        <option value="2000">Under 2,000 SAR</option>
+                        <option value="3000">2,000+ SAR</option>
+                    </select>
+                    <button id="filter-btn" class="bg-[#D4AF37] px-6 py-3 rounded-lg text-white font-medium hover:bg-[#B8960E] transition">Apply Filter</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PLACES LIST SECTION - Dynamic from API -->
+        <section class="max-w-6xl mx-auto px-4 py-16">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="font-display text-3xl font-bold">Available Places</h2>
+                <span id="places-count" class="text-sm text-gray-500">Loading...</span>
+            </div>
+            
+            <div id="places-list" class="featured-places-grid">
+                <!-- Places will be loaded dynamically via JavaScript -->
+                <div class="col-span-3 text-center py-12">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#9B7BB8] border-t-transparent"></div>
+                    <p class="mt-4 text-gray-600">Loading places...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORIES SECTION -->
+        <section class="bg-white py-16">
+            <div class="max-w-6xl mx-auto px-4">
+                <h2 class="font-display text-3xl font-bold mb-8">Browse by Category</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- Hotels -->
+                    <div class="category-card bg-gray-50 p-6 rounded-xl text-center hover:shadow-md transition">
+                        <div class="w-12 h-12 bg-[#9B7BB8]/10 rounded-full mx-auto mb-3 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-[#9B7BB8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold">Hotels</h3>
+                        <p class="text-sm text-gray-500">12+ places</p>
+                    </div>
+                    
+                    <!-- Chalets -->
+                    <div class="category-card bg-gray-50 p-6 rounded-xl text-center hover:shadow-md transition">
+                        <div class="w-12 h-12 bg-[#9B7BB8]/10 rounded-full mx-auto mb-3 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-[#9B7BB8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold">Chalets</h3>
+                        <p class="text-sm text-gray-500">8+ places</p>
+                    </div>
+                    
+                    <!-- Heritage -->
+                    <div class="category-card bg-gray-50 p-6 rounded-xl text-center hover:shadow-md transition">
+                        <div class="w-12 h-12 bg-[#9B7BB8]/10 rounded-full mx-auto mb-3 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-[#9B7BB8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold">Heritage</h3>
+                        <p class="text-sm text-gray-500">6+ places</p>
+                    </div>
+                    
+                    <!-- Apartments -->
+                    <div class="category-card bg-gray-50 p-6 rounded-xl text-center hover:shadow-md transition">
+                        <div class="w-12 h-12 bg-[#9B7BB8]/10 rounded-full mx-auto mb-3 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-[#9B7BB8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold">Apartments</h3>
+                        <p class="text-sm text-gray-500">15+ places</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER with All rights reserved -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center text-sm text-gray-400">
+            <p>© 2026 HBnB Saudi Arabia. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast"></div>
+
+    <!-- Script -->
+    <script src="js/scripts.js"></script>
+</body>
+</html>

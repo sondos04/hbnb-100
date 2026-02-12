@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBnB - Write a Review</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/add_review.css">
+</head>
+<body data-page="add-review">
+    <!-- HEADER -->
+    <header>
+        <nav class="bg-white shadow-sm fixed w-full z-10">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center gap-2">
+                        <img src="images/logo.png" alt="HBnB Logo" class="logo w-13 h-13">
+
+                    </div>
+                    <div class="hidden md:flex gap-6">
+                        <a href="index.html" class="nav-link px-2 py-1 text-gray-600" data-nav-link>Home</a>
+                        <a href="place.html" class="nav-link px-2 py-1 text-gray-600" data-nav-link>Places</a>
+                        <a href="about_us.html" class="nav-link px-2 py-1 text-gray-600" data-nav-link>About</a>
+                        <div id="auth-links"></div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        
+                        <!-- User Menu -->
+                        <div id="user-menu-container" class="relative">
+                            <div id="user-avatar" class="user-avatar">
+                                <span id="avatar-initial"></span>
+                            </div>
+                            <div id="user-dropdown" class="hidden absolute top-10 right-0 bg-white rounded-lg shadow-lg border border-gray-200 w-48 py-1 z-50">
+                                <div class="px-4 py-2 border-b border-gray-100">
+                                    <p id="dropdown-name" class="text-sm font-semibold"></p>
+                                    <p id="dropdown-email" class="text-xs text-gray-500"></p>
+                                </div>
+                                <button id="logout-btn" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Sign Out</button>
+                            </div>
+                        </div>
+                        
+                        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="h-16"></div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- Authentication Check - Redirect happens in JavaScript -->
+        <div id="review-content" class="review-container">
+            <!-- Loading State -->
+            <div id="review-loading" class="text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#9B7BB8] border-t-transparent"></div>
+                <p class="mt-4 text-gray-600">Loading...</p>
+            </div>
+            
+            <!-- Place Preview -->
+            <div id="place-preview" class="place-preview hidden"></div>
+            
+            <!-- Review Form - Hidden until authenticated and place loaded -->
+            <div id="review-form-container" class="hidden">
+                <div class="review-card">
+                    <!-- Header -->
+                    <div class="review-header">
+                        <div class="review-badge">
+                            <svg class="review-badge-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.784.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                            </svg>
+                            <span>Share Your Experience</span>
+                        </div>
+                        <h1 class="review-title">Write a Review</h1>
+                        <p class="review-subtitle">
+                            Help other travelers by sharing your honest experience at this property.
+                        </p>
+                    </div>
+
+                    <!-- Review Form -->
+                    <form id="review-form" class="review-form">
+                        <!-- Rating Stars -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                Your Rating <span class="required-star">*</span>
+                            </label>
+                            <div class="stars-wrapper">
+                                <div class="stars-container" id="rating-stars"></div>
+                                <span id="rating-label" class="rating-text">Select a rating</span>
+                            </div>
+                            <input type="hidden" id="rating-value" name="rating" value="0">
+                        </div>
+
+                        <!-- Review Text -->
+                        <div class="form-group">
+                            <label for="review-text" class="form-label">
+                                Your Review <span class="required-star">*</span>
+                            </label>
+                            <textarea id="review-text" rows="5" required
+                                    class="review-textarea"
+                                    placeholder="Tell us about your stay... What did you like? What could be improved?"></textarea>
+                            <div class="char-counter">
+                                <span id="char-count" class="char-count-text">0/500</span>
+                            </div>
+                        </div>
+
+                        <!-- Error Container -->
+                        <div id="review-error" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"></div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="submit-btn">
+                            <svg class="submit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Submit Review
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-white py-8 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center text-sm text-gray-400">
+            <p>© 2026 HBnB Saudi Arabia. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- TOAST -->
+    <div id="toast"></div>
+
+    <!-- Script -->
+    <script src="js/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBnB | About Us</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/about.css">
+</head>
+<body data-page="about" class="bg-gray-50">
+    <!-- HEADER -->
+    <header>
+        <nav class="bg-white shadow-sm fixed w-full z-10">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo with class="logo" -->
+                    <div class="flex items-center gap-2">
+                        <img src="images/logo.png" alt="HBnB Logo" class="logo w-13 h-13">
+                    </div>
+                    
+                    <!-- Navigation Links -->
+                    <div class="hidden md:flex gap-6">
+                        <a href="index.html" class="nav-link px-2 py-1 text-gray-600" data-nav-link>Home</a>
+                        <a href="place.html" class="nav-link px-2 py-1 text-gray-600" data-nav-link>Places</a>
+                        <a href="about_us.html" class="nav-link px-2 py-1" data-nav-link>About</a>
+                        <div id="auth-links">
+                            <a href="login.html" class="login-button nav-link px-2 py-1 text-gray-600" data-nav-link>Login</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Side - Language & Mobile Menu -->
+                    <div class="flex items-center gap-3">
+                        
+                        <!-- User Menu -->
+                        <div id="user-menu-container" class="hidden relative">
+                            <div id="user-avatar" class="user-avatar">
+                                <span id="avatar-initial"></span>
+                            </div>
+                            <div id="user-dropdown" class="hidden absolute top-10 right-0 bg-white rounded-lg shadow-lg border border-gray-200 w-48 py-1 z-50">
+                                <div class="px-4 py-2 border-b border-gray-100">
+                                    <p id="dropdown-name" class="text-sm font-semibold"></p>
+                                    <p id="dropdown-email" class="text-xs text-gray-500"></p>
+                                </div>
+                                <button id="logout-btn" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Sign Out</button>
+                            </div>
+                        </div>
+                        
+                        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="h-16"></div>
+
+    <!-- HERO SECTION -->
+    <section class="about-hero">
+        <div class="max-w-6xl mx-auto px-4 py-20">
+            <div class="max-w-3xl mx-auto text-center text-white">
+                <div class="inline-block bg-white/20 backdrop-blur px-6 py-2 rounded-full mb-6 border border-white/30">
+                    <span class="text-sm font-medium">✧  HBnB Team  ✧</span>
+                </div>
+                <h1 class="font-display text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                    Who We Are
+                </h1>
+                <p class="text-xl text-white/90 max-w-2xl mx-auto">
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM SECTION -->
+    <section class="max-w-6xl mx-auto px-4 py-16">
+        <div class="grid md:grid-cols-3 gap-8">
+            
+            <!-- 1. Nada Almutairi -->
+            <div class="team-card">
+                <div class="avatar-circle">
+                    <div class="avatar-inner">N</div>
+                </div>
+                <div class="text-center">
+                    <h3 class="team-name">Nada Almutairi</h3>
+                    
+                    <div class="flex flex-wrap gap-2 justify-center mt-3">
+                        <span class="university-badge">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                            Information Systems
+                        </span>
+                        <span class="university-badge">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                            Al-Maarefa University
+                        </span>
+                    </div>
+                    
+                    <span class="role-tag">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                        </svg>
+                        Software Developer
+                    </span>
+                    
+                    <p class="text-gray-600 text-sm mt-4">College of Computer Science and Information Systems</p>
+                    
+                    <div class="skills-container">
+                        <span class="skill-tag">HTML/CSS</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">SQL</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2. Sundus Alrubaish -->
+            <div class="team-card">
+                <div class="avatar-circle">
+                    <div class="avatar-inner">S</div>
+                </div>
+                <div class="text-center">
+                    <h3 class="team-name">Sundus Alrubaish</h3>                    
+                    <div class="flex flex-wrap gap-2 justify-center mt-3">
+                        <span class="university-badge">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            Electrical Engineering
+                        </span>
+                        <span class="university-badge">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                            Princess Nourah University
+                        </span>
+                    </div>
+                    
+                    <span class="role-tag">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        Systems Engineer
+                    </span>
+                    
+                    <p class="text-gray-600 text-sm mt-4">College of Engineering</p>
+                    
+                    <div class="skills-container">
+                        <span class="skill-tag">Arduino</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">IoT</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 3. Shaden Alalwani -->
+            <div class="team-card">
+                <div class="avatar-circle">
+                    <div class="avatar-inner">S</div>
+                </div>
+                <div class="text-center">
+                    <h3 class="team-name">Shaden Alalwani</h3>
+                    
+                    <div class="flex flex-wrap gap-2 justify-center mt-3">
+                        <span class="university-badge">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Financial Economics
+                        </span>
+                        <span class="university-badge">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                            Princess Nourah University
+                        </span>
+                    </div>
+                    
+                    <span class="role-tag">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                        Financial Analyst
+                    </span>
+                    
+                    <p class="text-gray-600 text-sm mt-4">College of Business Administration</p>
+                    
+                    <div class="skills-container">
+                        <span class="skill-tag">Excel</span>
+                        <span class="skill-tag">Analysis</span>
+                        <span class="skill-tag">Power BI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROJECT INFO -->
+        <div class="project-card">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                <div>
+                    <h3 class="project-title">About The Project</h3>
+                    <p class="project-description">
+                        HBnB is a web platform designed to help users discover different accommodations in Riyadh, including hotels, resorts, and chalets in a modern and easy way. The website allows users to browse places through cards containing images, service details, and reviews. After logging in, users can select their preferred place and write a review based on their experience. The project focuses on providing a simple and clear user experience with a contemporary design that reflects local identity, making the search for accommodations comfortable and fast.
+                    </p>
+                </div>
+            
+                </div>
+            </div>
+        </div>
+
+        <div class="supervisor-container">
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center text-sm text-gray-400">
+            <p>© 2026 HBnB Saudi Arabia. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- TOAST -->
+    <div id="toast"></div>
+
+    <!-- Script -->
+    <script src="js/scripts.js"></script>
+</body>
+</html>

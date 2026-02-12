@@ -1,0 +1,29 @@
+/* ============================================
+   HBnB - Index Page Styles
+   ============================================ */
+
+.featured-places-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .featured-places-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .featured-places-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.category-card {
+    transition: all 0.2s;
+}
+
+.category-card:hover {
+    box-shadow: 0 10px 25px -5px rgba(155,123,184,0.15);
+}

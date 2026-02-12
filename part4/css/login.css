@@ -1,0 +1,244 @@
+/* ============================================
+   HBnB - Login Page Styles (login.css)
+   ============================================ */
+
+/* ===== Login Container ===== */
+.login-container {
+    max-width: 28rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+/* ===== Login Card ===== */
+.login-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
+    border: 1px solid #f3f4f6;
+    transition: all 0.2s;
+}
+
+.login-card:hover {
+    box-shadow: 0 25px 50px -12px rgba(155, 123, 184, 0.15);
+    border-color: rgba(155, 123, 184, 0.2);
+}
+
+/* ===== Header ===== */
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1F2937;
+    margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+/* ===== Error Message ===== */
+.login-error-message {
+    display: flex;
+    align-items: center;
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    color: #B91C1C;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
+
+.login-error-message.hidden {
+    display: none;
+}
+
+.login-error-message svg {
+    flex-shrink: 0;
+    margin-right: 0.5rem;
+}
+
+/* ===== Tabs ===== */
+.login-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.login-tab {
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-weight: 500;
+    color: #6b7280;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.login-tab.active {
+    color: #9B7BB8;
+    border-bottom: 2px solid #9B7BB8;
+    font-weight: 600;
+}
+
+.login-tab:hover:not(.active) {
+    color: #4b5563;
+    border-bottom: 2px solid #d1d5db;
+}
+
+/* ===== Form Elements ===== */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.625rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    background: white;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #9B7BB8;
+    box-shadow: 0 0 0 3px rgba(155, 123, 184, 0.1);
+}
+
+.form-input::placeholder {
+    color: #9ca3af;
+}
+
+/* ===== Form Options ===== */
+.form-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #4b5563;
+    cursor: pointer;
+}
+
+.checkbox {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid #d1d5db;
+    accent-color: #9B7BB8;
+}
+
+.forgot-link {
+    font-size: 0.875rem;
+    color: #9B7BB8;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.forgot-link:hover {
+    color: #7A5A9A;
+    text-decoration: underline;
+}
+
+/* ===== Button Primary ===== */
+.btn-primary {
+    background: #9B7BB8;
+    color: white;
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background: #7A5A9A;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(155, 123, 184, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* ===== Hidden Utility ===== */
+.hidden {
+    display: none !important;
+}
+
+/* ===== Toast (يتم تحميله من styles.css) ===== */
+#toast {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background: #1F2937;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    transform: translateY(5rem);
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 9999;
+}
+
+#toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+    .login-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    
+    .login-card {
+        padding: 1.5rem;
+    }
+    
+    .login-title {
+        font-size: 1.5rem;
+    }
+    
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+}

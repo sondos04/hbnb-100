@@ -1,3 +1,4 @@
+```js
 // ============================================
 // HBnB - Unified JavaScript File (scripts.js)
 // FIXED: Removed demo login, proper API authentication
@@ -384,7 +385,9 @@ async function handleLogin(event) {
 // ========== FETCH PLACES ==========
 async function fetchPlaces() {
     try {
-        const response = await fetch(`${API_BASE_URL}/places`);
+        const response = await fetch(`${API_BASE_URL}/places/`, {
+            headers: isAuthenticated() ? { Authorization: `Bearer ${getAuthToken()}` } : {}
+        });
         if (response.ok) return await response.json();
         return MOCK_PLACES;
     } catch (error) {
@@ -490,7 +493,9 @@ function createPlaceCard(place) {
 // ========== PLACE DETAILS ==========
 async function fetchPlaceById(placeId) {
     try {
-        const response = await fetch(`${API_BASE_URL}/places/${placeId}`);
+        const response = await fetch(`${API_BASE_URL}/places/${placeId}`, {
+            headers: isAuthenticated() ? { Authorization: `Bearer ${getAuthToken()}` } : {}
+        });
         if (response.ok) return await response.json();
         return MOCK_PLACES.find(p => p.id == placeId) || MOCK_PLACES[0];
     } catch (error) {
@@ -615,9 +620,18 @@ function renderPlaceDetailsHTML(place) {
 // ========== REVIEWS ==========
 async function fetchReviews(placeId) {
     try {
-        const response = await fetch(`${API_BASE_URL}/places/${placeId}/reviews`);
-        if (response.ok) return await response.json();
-        return MOCK_REVIEWS;
+        // Backend exposes: GET /api/v1/reviews/  (NOT /places/<id>/reviews)
+        const response = await fetch(`${API_BASE_URL}/reviews/`, {
+            headers: isAuthenticated() ? { Authorization: `Bearer ${getAuthToken()}` } : {}
+        });
+
+        if (!response.ok) return MOCK_REVIEWS;
+
+        const allReviews = await response.json();
+
+        // Filter reviews client-side by place_id
+        const filtered = (allReviews || []).filter(r => String(r.place_id) === String(placeId));
+        return filtered;
     } catch (error) {
         return MOCK_REVIEWS;
     }
@@ -799,12 +813,39 @@ async function handleSubmitReview(event) {
     if (rating === 0) { showToast('Please select a rating'); return; }
     if (!text || !text.trim()) { showToast('Please write your review'); return; }
     if (text.length > 500) { showToast('Review must be less than 500 characters'); return; }
+    if (!placeId) { showToast('No place selected'); return; }
     
-    showToast('Review submitted successfully!');
-    
-    setTimeout(() => {
-        window.location.href = `place.html?id=${placeId}`;
-    }, 2000);
+    try {
+        const response = await fetch(`${API_BASE_URL}/reviews/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${getAuthToken()}`
+            },
+            body: JSON.stringify({
+                text: text.trim(),
+                rating: Number(rating),
+                place_id: String(placeId)
+            })
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            const msg = data.message || data.error || 'Failed to submit review';
+            showToast(msg);
+            return;
+        }
+
+        showToast('Review submitted successfully!');
+        setTimeout(() => {
+            window.location.href = `place.html?id=${placeId}`;
+        }, 1200);
+
+    } catch (error) {
+        console.error('Submit review error:', error);
+        showToast('Unable to connect to server. Please make sure the backend is running.');
+    }
 }
 
 // ========== INITIALIZATION ==========
@@ -868,3 +909,4 @@ function initApp() {
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
+```
